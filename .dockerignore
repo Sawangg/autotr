@@ -1,0 +1,13 @@
+.git/
+dist/
+node_modules/
+.dockerignore
+.env
+.env.example
+.gitignore
+biome.json
+Dockerfile*
+LICENSE
+README.md
+
+keys.json

@@ -29,8 +29,8 @@ export const getKeys = (): Keys => {
   const keyData = JSON.parse(readFileSync("keys.json", "utf-8"));
 
   return {
-    privateKey: keyData.privateKey,
-    publicKey: keyData.publicKey,
+    privateKey: process.env.PRIVATE_KEY ?? keyData.privateKey,
+    publicKey: process.env.PUBLIC_KEY ?? keyData.publicKey,
   };
 };
 
