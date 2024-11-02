@@ -34,7 +34,7 @@ export const derivatives = new Elysia()
     {
       body: t.Object({
         isin: t.String(),
-        leverage: t.Number({ default: 0 }),
+        leverage: t.Number({ default: 0, minimum: 0 }),
         direction: t.Enum(DerivativeDirection),
       }),
     },
@@ -63,7 +63,7 @@ export const derivatives = new Elysia()
     {
       body: t.Object({
         isin: t.String(),
-        factor: t.Number({ default: 0 }),
+        factor: t.Number({ default: 0, minimum: 0 }),
         direction: t.Enum(DerivativeDirection),
       }),
     },
@@ -92,7 +92,7 @@ export const derivatives = new Elysia()
     {
       body: t.Object({
         isin: t.String(),
-        strike: t.Number({ default: 0 }),
+        strike: t.Number({ default: 0, minimum: 0 }),
         direction: t.Enum(DerivativeDirection),
       }),
     },
