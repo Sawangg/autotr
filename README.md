@@ -20,14 +20,14 @@ Now you can run the docker image like so
 
 ```sh
 docker run -d -p 3000:3000 \
-           -e PHONE_NUMBER=<your_phone_number> \
-           -e PIN=<your_pin> \
-           -e PUBLIC_KEY=<your_public_key> \
-           -e PRIVATE_KEY=<your_private_key> \
+           -e PHONE_NUMBER="<your_phone_number>" \
+           -e PIN="<your_pin>" \
+           -e PUBLIC_KEY="<your_public_key>" \
+           -e PRIVATE_KEY="<your_private_key>" \
            sawang/autotr
 ```
 
-You can now query the server `http://localhost:3000`!
+You can now query the server `http://localhost:3000/api`!
 
 ## Development
 
