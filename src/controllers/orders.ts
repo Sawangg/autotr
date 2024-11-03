@@ -1,6 +1,6 @@
+import { randomUUID } from "node:crypto";
 import { Elysia, t } from "elysia";
 import { sub } from "src/tr-ws";
-import { randomUUID } from "node:crypto";
 
 enum OrderType {
   buy = "buy",

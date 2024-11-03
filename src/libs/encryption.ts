@@ -1,10 +1,9 @@
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
 import { ec as EC } from "elliptic";
 
 type Keys = {
-  privateKey: string;
   publicKey: string;
+  privateKey: string;
 };
 
 const ec = new EC("p256");
@@ -15,22 +14,22 @@ export const generateKeys = (): Keys => {
   const pubKeyBase64 = Buffer.from(pubKeyBytes).toString("base64");
   const privateKey = keyPair.getPrivate("hex");
 
-  // Private key is saved in "hex" format and public key is saved in base64 format
-  const keyData = {
-    privateKey: privateKey,
+  // Private key is in "hex" format and public key is in base64 format
+  return {
     publicKey: pubKeyBase64,
+    privateKey: privateKey,
   };
-
-  writeFileSync("keys.json", JSON.stringify(keyData));
-  return keyData;
 };
 
 export const getKeys = (): Keys => {
-  const keyData = JSON.parse(readFileSync("keys.json", "utf-8"));
+  const publicKey = process.env.PUBLIC_KEY;
+  const privateKey = process.env.PRIVATE_KEY;
+
+  if (!publicKey || !privateKey) throw new Error("Couldn't get keys");
 
   return {
-    privateKey: process.env.PRIVATE_KEY ?? keyData.privateKey,
-    publicKey: process.env.PUBLIC_KEY ?? keyData.publicKey,
+    publicKey,
+    privateKey,
   };
 };
 
