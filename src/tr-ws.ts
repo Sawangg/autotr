@@ -3,7 +3,8 @@ import { CONNECT_ID, LANG, MAX_RETRIES } from "@libs/constant";
 let ws: WebSocket;
 let connectResolve: () => void;
 
-const subs = new Map<number, { resolve: (value: unknown) => void; reject: (value: string) => void; unsub: boolean }>();
+// biome-ignore lint/suspicious/noExplicitAny: Cannot use unknown because of generic type T
+const subs = new Map<number, { resolve: (value: any) => void; reject: (value: string) => void; unsub: boolean }>();
 
 const handleMessage = (e: MessageEvent) => {
   if (e.data.startsWith("echo")) return;
@@ -57,13 +58,13 @@ export const connect = async (attempts = 0): Promise<void> => {
   });
 };
 
-export const sub = async (
+export const sub = async <T = unknown>(
   payload: Record<string, unknown>,
   token: string,
   unsub = true,
   timeout = 10000,
-): Promise<unknown> => {
-  return new Promise<unknown>((resolve, reject) => {
+): Promise<T> => {
+  return new Promise((resolve, reject) => {
     if (!ws || ws.readyState !== WebSocket.OPEN) reject("Socket not ready");
 
     const id = Math.floor(Math.random() * 10000);

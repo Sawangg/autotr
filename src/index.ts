@@ -1,5 +1,6 @@
 import { derivatives } from "@controllers/derivatives";
 import { orders } from "@controllers/orders";
+import { portfolio } from "@controllers/portfolio";
 import { cors } from "@elysiajs/cors";
 import { login } from "@libs/session";
 import { Elysia } from "elysia";
@@ -22,6 +23,7 @@ const app = new Elysia({ prefix: "api" })
   })
   .group("/derivatives", (app) => app.use(derivatives))
   .group("/orders", (app) => app.use(orders))
+  .group("/portfolio", (app) => app.use(portfolio))
   .use(cors())
   .use(helmet())
   .listen(process.env.PORT ?? 3000);

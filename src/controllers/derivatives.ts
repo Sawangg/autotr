@@ -15,7 +15,7 @@ export const derivatives = new Elysia()
       const token = request.headers.get("X-TR-Token");
       if (!token) return error("Bad Request");
 
-      const res = await sub(
+      return sub(
         {
           type: "derivatives",
           //jurisdiction: "EN",
@@ -28,8 +28,6 @@ export const derivatives = new Elysia()
         },
         token,
       );
-
-      return res;
     },
     {
       body: t.Object({
@@ -45,7 +43,7 @@ export const derivatives = new Elysia()
       const token = request.headers.get("X-TR-Token");
       if (!token) return error("Bad Request");
 
-      const res = await sub(
+      return sub(
         {
           type: "derivatives",
           underlying: body.isin,
@@ -57,8 +55,6 @@ export const derivatives = new Elysia()
         },
         token,
       );
-
-      return res;
     },
     {
       body: t.Object({
@@ -74,7 +70,7 @@ export const derivatives = new Elysia()
       const token = request.headers.get("X-TR-Token");
       if (!token) return error("Bad Request");
 
-      const res = await sub(
+      return sub(
         {
           type: "derivatives",
           underlying: body.isin,
@@ -86,8 +82,6 @@ export const derivatives = new Elysia()
         },
         token,
       );
-
-      return res;
     },
     {
       body: t.Object({

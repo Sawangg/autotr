@@ -3,7 +3,7 @@ import { AGENT } from "@libs/constant";
 import { generateKeys } from "@libs/encryption";
 import prompts from "prompts";
 
-export const resetDevice = async (publicKey: string, phoneNumber: string, pin: string): Promise<boolean> => {
+export const registerDevice = async (publicKey: string, phoneNumber: string, pin: string): Promise<boolean> => {
   const resetRes = await fetch("https://api.traderepublic.com/api/v1/auth/account/reset/device", {
     method: "POST",
     headers: {
@@ -83,6 +83,6 @@ const pwd = await prompts({
 });
 if (!pwd.pin) throw new Error("Invalid pin!");
 
-const isPaired = await resetDevice(keys.publicKey, pn.phonenumber, pwd.pin);
+const isPaired = await registerDevice(keys.publicKey, pn.phonenumber, pwd.pin);
 if (!isPaired) throw new Error("Couldn't pair the account!");
 console.log("Successfully paired your account!");

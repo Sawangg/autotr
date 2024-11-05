@@ -13,8 +13,7 @@ export const orders = new Elysia()
     const token = request.headers.get("X-TR-Token");
     if (!token) return error("Bad Request");
 
-    const res = await sub({ type: "orders" }, token);
-    return res;
+    return sub({ type: "orders" }, token);
   })
 
   // Price for an order
@@ -53,7 +52,7 @@ export const orders = new Elysia()
       const token = request.headers.get("X-TR-Token");
       if (!token) return error("Bad Request");
 
-      const res = await sub(
+      return sub(
         {
           type: "simpleCreateOrder",
           clientProcessId: randomUUID(),
@@ -66,8 +65,6 @@ export const orders = new Elysia()
         },
         token,
       );
-
-      return res;
     },
     {
       body: t.Object({
@@ -85,7 +82,7 @@ export const orders = new Elysia()
       const token = request.headers.get("X-TR-Token");
       if (!token) return error("Bad Request");
 
-      const res = await sub(
+      return sub(
         {
           type: "simpleCreateOrder",
           clientProcessId: randomUUID(),
@@ -102,8 +99,6 @@ export const orders = new Elysia()
         },
         token,
       );
-
-      return res;
     },
     {
       body: t.Object({
@@ -124,7 +119,7 @@ export const orders = new Elysia()
       const token = request.headers.get("X-TR-Token");
       if (!token) return error("Bad Request");
 
-      const res = await sub(
+      return sub(
         {
           type: "simpleCreateOrder",
           clientProcessId: randomUUID(),
@@ -141,8 +136,6 @@ export const orders = new Elysia()
         },
         token,
       );
-
-      return res;
     },
     {
       body: t.Object({
@@ -163,15 +156,13 @@ export const orders = new Elysia()
       const token = request.headers.get("X-TR-Token");
       if (!token) return error("Bad Request");
 
-      const res = await sub(
+      return sub(
         {
           type: "cancelOrder",
           orderId: body.orderId,
         },
         token,
       );
-
-      return res;
     },
     {
       body: t.Object({
