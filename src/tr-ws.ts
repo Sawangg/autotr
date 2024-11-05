@@ -1,9 +1,12 @@
+import { CONNECT_ID, LANG, MAX_RETRIES } from "@libs/constant";
+
 let ws: WebSocket;
 let connectResolve: () => void;
 
 const subs = new Map<number, { resolve: (value: unknown) => void; reject: (value: string) => void; unsub: boolean }>();
 
 const handleMessage = (e: MessageEvent) => {
+  if (e.data.startsWith("echo")) return;
   if (e.data === "connected") {
     connectResolve();
 
@@ -13,7 +16,6 @@ const handleMessage = (e: MessageEvent) => {
     }, 50000);
     return;
   }
-  if (e.data.startsWith("echo")) return;
 
   const [id, status, ...data] = e.data.split(" ");
   const sub = subs.get(Number(id));
@@ -25,7 +27,7 @@ const handleMessage = (e: MessageEvent) => {
   if (sub.unsub) unsub(Number(id));
 };
 
-export const connect = async (lang = "en"): Promise<void> => {
+export const connect = async (attempts = 0): Promise<void> => {
   return new Promise((resolve, reject) => {
     connectResolve = resolve;
 
@@ -33,19 +35,24 @@ export const connect = async (lang = "en"): Promise<void> => {
 
     // The connect id can change when Trade Republic update its API.
     ws.onopen = () => {
-      ws.send(`connect 32 { "locale": "${lang}" }`);
+      ws.send(`connect ${CONNECT_ID} { "locale": "${LANG}" }`);
     };
 
     // Timeout after 15s
     setTimeout(() => {
-      if (!ws || ws.readyState !== WebSocket.OPEN) reject();
+      if (!ws || ws.readyState !== WebSocket.OPEN) {
+        reject("Timeout");
+        ws.close();
+      }
     }, 15000);
 
     ws.onmessage = handleMessage;
-    ws.onerror = (error: Event) => console.error("TradeRepublic's socket error: ", error);
+    ws.onerror = (error: Event) => console.error("Trade Republic's socket error: ", error);
     ws.onclose = () => {
-      console.log("TradeRepublic's socket closed");
-      process.exit(1);
+      if (attempts === MAX_RETRIES) {
+        throw new Error(`Failed to reconnect to Trade Republic's socket after ${MAX_RETRIES} retries, exiting`);
+      }
+      void connect(attempts + 1);
     };
   });
 };

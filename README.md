@@ -50,4 +50,4 @@ bun dev
 
 [J05HI's Documentation](https://github.com/J05HI/pytru)
 
-_I am not affiliated with TradeRepublic_
+_I am not affiliated with Trade Republic_
