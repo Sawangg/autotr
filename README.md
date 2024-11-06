@@ -24,7 +24,7 @@ docker run -d -p 3000:3000 \
            -e PIN="<your_pin>" \
            -e PUBLIC_KEY="<your_public_key>" \
            -e PRIVATE_KEY="<your_private_key>" \
-           sawang/autotr
+           ghcr.io/sawangg/autotr:master
 ```
 
 You can now query the server `http://localhost:3000/api`!

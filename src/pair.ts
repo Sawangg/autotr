@@ -5,6 +5,7 @@ import prompts from "prompts";
 
 const generateKeys = () => {
   const ecdh = createECDH("p256");
+  ecdh.generateKeys();
   return {
     publicKey: ecdh.getPublicKey("base64"),
     privateKey: ecdh.getPrivateKey("hex"),
