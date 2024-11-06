@@ -1,9 +1,17 @@
+import { createECDH } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { AGENT } from "@libs/constant";
-import { generateKeys } from "@libs/encryption";
 import prompts from "prompts";
 
-export const registerDevice = async (publicKey: string, phoneNumber: string, pin: string): Promise<boolean> => {
+const generateKeys = () => {
+  const ecdh = createECDH("p256");
+  return {
+    publicKey: ecdh.getPublicKey("base64"),
+    privateKey: ecdh.getPrivateKey("hex"),
+  };
+};
+
+const registerDevice = async (publicKey: string, phoneNumber: string, pin: string): Promise<boolean> => {
   const resetRes = await fetch("https://api.traderepublic.com/api/v1/auth/account/reset/device", {
     method: "POST",
     headers: {
