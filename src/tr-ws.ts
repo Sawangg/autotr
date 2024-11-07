@@ -28,7 +28,7 @@ const handleMessage = (e: MessageEvent) => {
   if (sub.unsub) unsub(Number(id));
 };
 
-export const connect = async (attempts = 0): Promise<void> => {
+export const connect = async (attempts = 1): Promise<void> => {
   return new Promise((resolve, reject) => {
     connectResolve = resolve;
 
@@ -39,13 +39,13 @@ export const connect = async (attempts = 0): Promise<void> => {
       ws.send(`connect ${CONNECT_ID} { "locale": "${LANG}" }`);
     };
 
-    // Timeout after 15s
+    // Incremental timeout for each attempt
     setTimeout(() => {
       if (!ws || ws.readyState !== WebSocket.OPEN) {
         reject("Timeout");
         ws.close();
       }
-    }, 15000);
+    }, attempts * 15000);
 
     ws.onmessage = handleMessage;
     ws.onerror = (error: Event) => console.error("Trade Republic's socket error: ", error);

@@ -19,7 +19,7 @@ account! ⚠️**
 Now you can run the docker image like so
 
 ```sh
-docker run -d -p 3000:3000 \
+docker run -d -p 3000:3000 --restart on-failure \
            -e PHONE_NUMBER="<your_phone_number>" \
            -e PIN="<your_pin>" \
            -e PUBLIC_KEY="<your_public_key>" \
