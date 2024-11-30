@@ -1,5 +1,6 @@
 {
   "name": "autotr",
+  "author": "sawang",
   "module": "index.ts",
   "type": "module",
   "scripts": {
@@ -13,18 +14,16 @@
   },
   "dependencies": {
     "@elysiajs/cors": "^1.1.1",
-    "elliptic": "^6.6.0",
-    "elysia": "^1.1.24",
+    "elliptic": "^6.6.1",
+    "elysia": "^1.1.25",
     "elysia-helmet": "^2.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/bun": "^1.1.13",
+    "@types/bun": "^1.1.14",
     "@types/elliptic": "^6.4.18",
     "@types/prompts": "^2.4.9",
-    "prompts": "^2.4.2"
-  },
-  "peerDependencies": {
-    "typescript": "^5.6.3"
+    "prompts": "^2.4.2",
+    "typescript": "^5.7.2"
   }
 }
