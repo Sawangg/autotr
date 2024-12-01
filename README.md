@@ -8,7 +8,7 @@ more!
 First of you need to download the latest pair script in the [release tab](https://github.com/Sawangg/autotr/releases).
 Execute it and save the keys in a text file or something of your choosing.
 
-> NOTE:
+> [!IMPORTANT]
 > When you pair your device with the API, you will loose access on your phone. If you decide to pair your phone again,
 > the API will stop working. Use the web app to check your account. To login to the web app, you'll need to send the
 > verification code by SMS because your app won't be enrolled anymore.
