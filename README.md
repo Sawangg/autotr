@@ -13,7 +13,7 @@ Execute it and save the keys in a text file or something of your choosing.
 > the API will stop working. Use the web app to check your account. To login to the web app, you'll need to send the
 > verification code by SMS because your app won't be enrolled anymore.
 
-**⚠️ Becareful how your exposing the API because anyone can query it meaning anyone can interact with your Trade Republic
+**⚠️ Becareful how you're exposing the API because anyone can query it meaning anyone can interact with your Trade Republic
 account! ⚠️**
 
 Now you can run the docker image like so
