@@ -46,8 +46,4 @@ You can then start the development server by running
 bun dev
 ```
 
-## Credits
-
-[J05HI's Documentation](https://github.com/J05HI/pytru)
-
 _I am not affiliated with Trade Republic_
