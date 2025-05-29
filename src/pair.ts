@@ -1,14 +1,27 @@
-import { createECDH } from "node:crypto";
+import { generateKeyPairSync } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { AGENT } from "@libs/constant";
+import { spkiToUncompressedBase64 } from "@libs/encryption";
 import prompts from "prompts";
 
 const generateKeys = () => {
-  const ecdh = createECDH("p256");
-  ecdh.generateKeys();
+  const { publicKey: spkiPubPem, privateKey: pkcs8Pem } = generateKeyPairSync("ec", {
+    namedCurve: "prime256v1",
+    publicKeyEncoding: {
+      type: "spki",
+      format: "pem",
+    },
+    privateKeyEncoding: {
+      type: "pkcs8",
+      format: "pem",
+    },
+  });
+
+  const rawPublicKey = spkiToUncompressedBase64(spkiPubPem);
+
   return {
-    publicKey: ecdh.getPublicKey("base64"),
-    privateKey: ecdh.getPrivateKey("hex"),
+    publicKey: rawPublicKey,
+    privateKey: pkcs8Pem,
   };
 };
 
@@ -79,7 +92,7 @@ if (confirm.value) {
 const pn = await prompts({
   type: "text",
   name: "phonenumber",
-  message: "Enter the phone number of your Trade Republic account",
+  message: "Enter the phone number (starting with a +) of your Trade Republic account",
   validate: (value: string) => (!value.startsWith("+") ? "Your phone number should start with a +" : true),
 });
 if (!pn.phonenumber) throw new Error("Invalid phone number!");

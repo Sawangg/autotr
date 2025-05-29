@@ -17,7 +17,7 @@ setInterval(async () => {
   sessionToken = (await login()).sessionToken;
 }, 240000);
 
-const app = new Elysia({ prefix: "api" })
+const app = new Elysia({ prefix: "/api" })
   .onRequest(({ request }) => {
     request.headers.set("X-TR-Token", sessionToken);
   })

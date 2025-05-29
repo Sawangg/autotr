@@ -9,9 +9,9 @@ enum OrderType {
 
 export const orders = new Elysia()
   // Get all orders
-  .get("/", async ({ request, error }) => {
+  .get("/", async ({ request, status }) => {
     const token = request.headers.get("X-TR-Token");
-    if (!token) return error("Bad Request");
+    if (!token) return status(400);
 
     return sub({ type: "orders" }, token);
   })
@@ -19,9 +19,9 @@ export const orders = new Elysia()
   // Price for an order
   .post(
     "/price",
-    async ({ request, body, error }) => {
+    async ({ request, body, status }) => {
       const token = request.headers.get("X-TR-Token");
-      if (!token) return error("Bad Request");
+      if (!token) return status("Bad Request");
 
       const res = await sub(
         {
@@ -48,9 +48,9 @@ export const orders = new Elysia()
   // Market order
   .post(
     "/market",
-    async ({ request, body, error }) => {
+    async ({ request, body, status }) => {
       const token = request.headers.get("X-TR-Token");
-      if (!token) return error("Bad Request");
+      if (!token) return status(400);
 
       return sub(
         {
@@ -78,9 +78,9 @@ export const orders = new Elysia()
   // Limit order
   .post(
     "/limit",
-    async ({ request, body, error }) => {
+    async ({ request, body, status }) => {
       const token = request.headers.get("X-TR-Token");
-      if (!token) return error("Bad Request");
+      if (!token) return status(400);
 
       return sub(
         {
@@ -115,9 +115,9 @@ export const orders = new Elysia()
   // Stop order
   .post(
     "/stop",
-    async ({ request, body, error }) => {
+    async ({ request, body, status }) => {
       const token = request.headers.get("X-TR-Token");
-      if (!token) return error("Bad Request");
+      if (!token) return status(400);
 
       return sub(
         {
@@ -152,9 +152,9 @@ export const orders = new Elysia()
   // Cancel order
   .post(
     "/cancel",
-    async ({ request, body, error }) => {
+    async ({ request, body, status }) => {
       const token = request.headers.get("X-TR-Token");
-      if (!token) return error("Bad Request");
+      if (!token) return status(400);
 
       return sub(
         {

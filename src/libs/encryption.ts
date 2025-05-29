@@ -1,19 +1,23 @@
-// TODO: remove elliptic package and use node:crypto
-import { createHash } from "node:crypto";
-import { ec as EC } from "elliptic";
+import { createPublicKey, createSign } from "node:crypto";
 
 export const signPayload = (payload: string): { time: number; signedPayload: string } => {
   const time = Date.now();
   const privateKey = process.env.PRIVATE_KEY;
-  if (!privateKey) throw new Error("Cannot find private key");
+  if (!privateKey) throw new Error("Cannot find private key in PEM format (environment variable: PRIVATE_KEY)");
 
-  const ec = new EC("p256");
-  const keyPair = ec.keyFromPrivate(privateKey, "hex");
+  const signer = createSign("sha512").update(`${time}.${payload}`).end();
 
-  const hash = createHash("sha512").update(`${time}.${payload}`).digest();
+  return { time, signedPayload: signer.sign({ key: privateKey }, "base64") };
+};
 
-  const signature = keyPair.sign(hash, { canonical: true }).toDER();
-  const signedPayload = Buffer.from(signature).toString("base64");
+export const spkiToUncompressedBase64 = (spkiPem: string): string => {
+  const pubKeyDer = createPublicKey(spkiPem).export({ type: "spki", format: "der" });
 
-  return { time, signedPayload };
+  if (pubKeyDer.length < 65) throw new Error("Public key DER is too short to contain an uncompressed P-256 key");
+
+  const uncompressedStart = pubKeyDer.length - 65;
+  if (pubKeyDer[uncompressedStart] !== 0x04) throw new Error("Expected uncompressed point starting with 0x04");
+
+  const uncompressed = pubKeyDer.subarray(uncompressedStart);
+  return uncompressed.toString("base64");
 };

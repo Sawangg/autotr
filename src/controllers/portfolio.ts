@@ -2,9 +2,9 @@ import { Elysia } from "elysia";
 import { sub } from "src/tr-ws";
 
 export const portfolio = new Elysia()
-  .get("/", async ({ request, error }) => {
+  .get("/", async ({ request, status }) => {
     const token = request.headers.get("X-TR-Token");
-    if (!token) return error("Bad Request");
+    if (!token) return status(400);
 
     const positions = await sub<{ positions: [{ instrumentId: string; netSize: string }] }>(
       { type: "compactPortfolio" },

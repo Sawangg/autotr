@@ -11,9 +11,9 @@ enum DerivativeDirection {
 export const derivatives = new Elysia()
   .post(
     "/knockout",
-    async ({ request, body, error }) => {
+    async ({ request, body, status }) => {
       const token = request.headers.get("X-TR-Token");
-      if (!token) return error("Bad Request");
+      if (!token) return status(400);
 
       return sub(
         {
@@ -39,9 +39,9 @@ export const derivatives = new Elysia()
   )
   .post(
     "/factor",
-    async ({ request, body, error }) => {
+    async ({ request, body, status }) => {
       const token = request.headers.get("X-TR-Token");
-      if (!token) return error("Bad Request");
+      if (!token) return status(400);
 
       return sub(
         {
@@ -66,9 +66,9 @@ export const derivatives = new Elysia()
   )
   .post(
     "/warrant",
-    async ({ request, body, error }) => {
+    async ({ request, body, status }) => {
       const token = request.headers.get("X-TR-Token");
-      if (!token) return error("Bad Request");
+      if (!token) return status(400);
 
       return sub(
         {
