@@ -7,11 +7,11 @@ export const signPayload = (payload: string): { time: number; signedPayload: str
 
   const signer = createSign("sha512").update(`${time}.${payload}`).end();
 
-  return { time, signedPayload: signer.sign({ key: privateKey }, "base64") };
+  return { signedPayload: signer.sign({ key: privateKey }, "base64"), time };
 };
 
 export const spkiToUncompressedBase64 = (spkiPem: string): string => {
-  const pubKeyDer = createPublicKey(spkiPem).export({ type: "spki", format: "der" });
+  const pubKeyDer = createPublicKey(spkiPem).export({ format: "der", type: "spki" });
 
   if (pubKeyDer.length < 65) throw new Error("Public key DER is too short to contain an uncompressed P-256 key");
 

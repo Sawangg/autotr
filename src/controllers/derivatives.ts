@@ -17,23 +17,23 @@ export const derivatives = new Elysia()
 
       return sub(
         {
+          leverage: body.leverage,
+          optionType: body.direction,
+          productCategory: "knockOutProduct",
+          sortBy: "leverage",
+          sortDirection: "asc",
           type: "derivatives",
           //jurisdiction: "EN",
           underlying: body.isin,
-          productCategory: "knockOutProduct",
-          leverage: body.leverage,
-          sortBy: "leverage",
-          sortDirection: "asc",
-          optionType: body.direction,
         },
         token,
       );
     },
     {
       body: t.Object({
+        direction: t.Enum(DerivativeDirection),
         isin: t.String(),
         leverage: t.Number({ default: 0, minimum: 0 }),
-        direction: t.Enum(DerivativeDirection),
       }),
     },
   )
@@ -45,22 +45,22 @@ export const derivatives = new Elysia()
 
       return sub(
         {
-          type: "derivatives",
-          underlying: body.isin,
-          productCategory: "factorCertificate",
           factor: body.factor,
+          optionType: body.direction,
+          productCategory: "factorCertificate",
           sortBy: "factor",
           sortDirection: "asc",
-          optionType: body.direction,
+          type: "derivatives",
+          underlying: body.isin,
         },
         token,
       );
     },
     {
       body: t.Object({
-        isin: t.String(),
-        factor: t.Number({ default: 0, minimum: 0 }),
         direction: t.Enum(DerivativeDirection),
+        factor: t.Number({ default: 0, minimum: 0 }),
+        isin: t.String(),
       }),
     },
   )
@@ -72,22 +72,22 @@ export const derivatives = new Elysia()
 
       return sub(
         {
-          type: "derivatives",
-          underlying: body.isin,
+          optionType: body.direction,
           productCategory: "vanillaWarrant",
-          strike: body.strike,
           sortBy: "strike",
           sortDirection: "asc",
-          optionType: body.direction,
+          strike: body.strike,
+          type: "derivatives",
+          underlying: body.isin,
         },
         token,
       );
     },
     {
       body: t.Object({
+        direction: t.Enum(DerivativeDirection),
         isin: t.String(),
         strike: t.Number({ default: 0, minimum: 0 }),
-        direction: t.Enum(DerivativeDirection),
       }),
     },
   );

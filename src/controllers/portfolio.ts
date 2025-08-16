@@ -14,15 +14,15 @@ export const portfolio = new Elysia()
 
     let portfolioValue = 0;
     for (const position of positions.positions) {
-      const res = await sub<{ bid: { price: string } }>({ type: "ticker", id: `${position.instrumentId}.LSX` }, token);
+      const res = await sub<{ bid: { price: string } }>({ id: `${position.instrumentId}.LSX`, type: "ticker" }, token);
       portfolioValue += Number.parseFloat(position.netSize) * Number.parseFloat(res.bid.price);
     }
-    return { positions: positions.positions, cash: cash[0].amount, portfolio: portfolioValue };
+    return { cash: cash[0].amount, portfolio: portfolioValue, positions: positions.positions };
   })
 
-  .get("/transactions", async ({ request, error }) => {
+  .get("/transactions", async ({ request, status }) => {
     const token = request.headers.get("X-TR-Token");
-    if (!token) return error("Bad Request");
+    if (!token) return status(400);
 
     return sub({ type: "timelineTransactions" }, token);
   });

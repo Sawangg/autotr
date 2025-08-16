@@ -1,28 +1,28 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "allowJs": true,
+    // Modules
+    "baseUrl": ".",
+    "jsx": "react-jsx",
     // Enable latest features
     "lib": ["ESNext", "DOM"],
-    "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
-    "jsx": "react-jsx",
-    "allowJs": true,
     // Bundler mode
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
     "noEmit": true,
-    // Best practices
-    "strict": true,
-    "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    // Modules
-    "baseUrl": ".",
     "paths": {
       "@controllers/*": ["src/controllers/*"],
       "@libs/*": ["src/libs/*"]
-    }
+    },
+    "skipLibCheck": true,
+    // Best practices
+    "strict": true,
+    "target": "ESNext",
+    "verbatimModuleSyntax": true
   }
 }

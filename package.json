@@ -1,28 +1,28 @@
 {
-  "name": "autotr",
   "author": "sawang",
-  "version": "0.0.2",
-  "module": "index.ts",
-  "type": "module",
-  "scripts": {
-    "dev": "bun --watch src/index.ts",
-    "build": "bun build src/index.ts --target bun --outdir ./dist",
-    "start": "NODE_ENV=production bun dist/index.js",
-    "check": "biome check",
-    "check:fix": "biome check --fix --unsafe",
-    "pair:x86": "bun build --compile --minify --sourcemap --target=bun-linux-x64-modern ./src/pair.ts --outfile pair-x86",
-    "pair:aarch64": "bun build --compile --minify --sourcemap --target=bun-linux-arm64-modern ./src/pair.ts --outfile pair-aarch64 "
-  },
   "dependencies": {
     "@elysiajs/cors": "^1.3.3",
-    "elysia": "^1.3.3",
+    "elysia": "^1.3.8",
     "elysia-helmet": "^3.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/bun": "^1.2.15",
+    "@biomejs/biome": "^2.2.0",
+    "@types/bun": "^1.2.20",
     "@types/prompts": "^2.4.9",
     "prompts": "^2.4.2",
-    "typescript": "^5.8.3"
-  }
+    "typescript": "^5.9.2"
+  },
+  "module": "index.ts",
+  "name": "autotr",
+  "scripts": {
+    "build": "bun build src/index.ts --target bun --outdir ./dist",
+    "check": "biome check",
+    "check:fix": "biome check --fix --unsafe",
+    "dev": "bun --watch src/index.ts",
+    "pair:aarch64": "bun build --compile --minify --sourcemap --target=bun-linux-arm64-modern ./src/pair.ts --outfile pair-aarch64 ",
+    "pair:x86": "bun build --compile --minify --sourcemap --target=bun-linux-x64-modern ./src/pair.ts --outfile pair-x86",
+    "start": "NODE_ENV=production bun dist/index.js"
+  },
+  "type": "module",
+  "version": "0.0.3"
 }

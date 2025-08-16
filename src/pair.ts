@@ -7,32 +7,32 @@ import prompts from "prompts";
 const generateKeys = () => {
   const { publicKey: spkiPubPem, privateKey: pkcs8Pem } = generateKeyPairSync("ec", {
     namedCurve: "prime256v1",
-    publicKeyEncoding: {
-      type: "spki",
-      format: "pem",
-    },
     privateKeyEncoding: {
-      type: "pkcs8",
       format: "pem",
+      type: "pkcs8",
+    },
+    publicKeyEncoding: {
+      format: "pem",
+      type: "spki",
     },
   });
 
   const rawPublicKey = spkiToUncompressedBase64(spkiPubPem);
 
   return {
-    publicKey: rawPublicKey,
     privateKey: pkcs8Pem,
+    publicKey: rawPublicKey,
   };
 };
 
 const registerDevice = async (publicKey: string, phoneNumber: string, pin: string): Promise<boolean> => {
   const resetRes = await fetch("https://api.traderepublic.com/api/v1/auth/account/reset/device", {
-    method: "POST",
+    body: JSON.stringify({ phoneNumber, pin }),
     headers: {
       "Content-Type": "application/json",
       "User-Agent": AGENT,
     },
-    body: JSON.stringify({ phoneNumber, pin }),
+    method: "POST",
   });
 
   if (resetRes.status === 429) throw new Error("Too many reset attempts");
@@ -42,21 +42,21 @@ const registerDevice = async (publicKey: string, phoneNumber: string, pin: strin
 
   // Confirmation
   const prompt = await prompts({
-    type: "text",
-    name: "code",
     message: "Enter the code you just received by SMS",
+    name: "code",
+    type: "text",
     validate: (value) => (value.length !== 4 ? "Your validation code should have 4 digits" : true),
   });
 
   if (!prompt.code) throw new Error("Invalid validation code!");
 
   const res = await fetch(`https://api.traderepublic.com/api/v1/auth/account/reset/device/${resetData.processId}/key`, {
-    method: "POST",
+    body: JSON.stringify({ code: prompt.code, deviceKey: publicKey }),
     headers: {
       "Content-Type": "application/json",
       "User-Agent": AGENT,
     },
-    body: JSON.stringify({ code: prompt.code, deviceKey: publicKey }),
+    method: "POST",
   });
 
   if (res.status === 200) return true;
@@ -79,9 +79,9 @@ console.log(`Public key: ${keys.publicKey}`);
 console.log(`Private key: ${keys.privateKey}\n`);
 
 const confirm = await prompts({
-  type: "confirm",
-  name: "value",
   message: "Do you want to save the keys to disk at your current location?",
+  name: "value",
+  type: "confirm",
 });
 
 if (confirm.value) {
@@ -90,17 +90,17 @@ if (confirm.value) {
 }
 
 const pn = await prompts({
-  type: "text",
-  name: "phonenumber",
   message: "Enter the phone number (starting with a +) of your Trade Republic account",
+  name: "phonenumber",
+  type: "text",
   validate: (value: string) => (!value.startsWith("+") ? "Your phone number should start with a +" : true),
 });
 if (!pn.phonenumber) throw new Error("Invalid phone number!");
 
 const pwd = await prompts({
-  type: "password",
-  name: "pin",
   message: "Enter the pin of your Trade Republic account",
+  name: "pin",
+  type: "password",
   validate: (value) => (value.length !== 4 ? "Your pin should have 4 numbers" : true),
 });
 if (!pwd.pin) throw new Error("Invalid pin!");

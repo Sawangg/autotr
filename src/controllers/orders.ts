@@ -25,12 +25,12 @@ export const orders = new Elysia()
 
       const res = await sub(
         {
-          type: "priceForOrder",
           parameters: {
             exchangeId: body.exchange,
             instrumentId: body.isin,
             type: body.type,
           },
+          type: "priceForOrder",
         },
         token,
       );
@@ -54,23 +54,23 @@ export const orders = new Elysia()
 
       return sub(
         {
-          type: "simpleCreateOrder",
           clientProcessId: randomUUID(),
-          warningsShown: [],
           parameters: {
-            mode: "market",
             instrumentId: body.isin,
+            mode: "market",
             size: body.size,
           },
+          type: "simpleCreateOrder",
+          warningsShown: [],
         },
         token,
       );
     },
     {
       body: t.Object({
-        type: t.Enum(OrderType),
         isin: t.String(),
         size: t.Number(),
+        type: t.Enum(OrderType),
       }),
     },
   )
@@ -84,30 +84,30 @@ export const orders = new Elysia()
 
       return sub(
         {
-          type: "simpleCreateOrder",
           clientProcessId: randomUUID(),
-          warningsShown: [],
           parameters: {
-            instrumentId: body.isin,
             exchangeId: body.exchange,
-            mode: "limit",
-            type: body.type,
-            size: body.size,
             expiry: { type: "gtd", value: body.expiry },
+            instrumentId: body.isin,
             limit: body.limit,
+            mode: "limit",
+            size: body.size,
+            type: body.type,
           },
+          type: "simpleCreateOrder",
+          warningsShown: [],
         },
         token,
       );
     },
     {
       body: t.Object({
-        isin: t.String(),
         exchange: t.String(),
-        type: t.Enum(OrderType),
-        size: t.Number(),
         expiry: t.RegExp(/^\d{4}-\d{2}-\d{2}$/),
+        isin: t.String(),
         limit: t.Number(),
+        size: t.Number(),
+        type: t.Enum(OrderType),
       }),
     },
   )
@@ -121,30 +121,30 @@ export const orders = new Elysia()
 
       return sub(
         {
-          type: "simpleCreateOrder",
           clientProcessId: randomUUID(),
-          warningsShown: [],
           parameters: {
-            instrumentId: body.isin,
             exchangeId: body.exchange,
-            mode: "stopMarket",
-            type: body.type,
-            size: body.size,
             expiry: { type: "gtd", value: body.expiry },
+            instrumentId: body.isin,
+            mode: "stopMarket",
+            size: body.size,
             stop: body.stop,
+            type: body.type,
           },
+          type: "simpleCreateOrder",
+          warningsShown: [],
         },
         token,
       );
     },
     {
       body: t.Object({
-        isin: t.String(),
         exchange: t.String(),
-        type: t.Enum(OrderType),
-        size: t.Number(),
         expiry: t.RegExp(/^\d{4}-\d{2}-\d{2}$/),
+        isin: t.String(),
+        size: t.Number(),
         stop: t.Number(),
+        type: t.Enum(OrderType),
       }),
     },
   )
@@ -158,8 +158,8 @@ export const orders = new Elysia()
 
       return sub(
         {
-          type: "cancelOrder",
           orderId: body.orderId,
+          type: "cancelOrder",
         },
         token,
       );

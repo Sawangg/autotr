@@ -11,7 +11,7 @@ const handleMessage = (e: MessageEvent) => {
   if (e.data === "connected") {
     connectResolve();
 
-    // Prevent the ws from disconnecting
+    // Prevent the websocket from disconnecting
     setInterval(() => {
       ws.send(`echo ${Date.now()}`);
     }, 50000);
@@ -68,7 +68,7 @@ export const sub = async <T = unknown>(
     if (!ws || ws.readyState !== WebSocket.OPEN) reject("Socket not ready");
 
     const id = Math.floor(Math.random() * 10000);
-    subs.set(id, { resolve, reject, unsub });
+    subs.set(id, { reject, resolve, unsub });
     ws.send(`sub ${id} ${JSON.stringify({ ...payload, token })}`);
 
     setTimeout(() => reject(`Timeout for id ${id}`), timeout);
