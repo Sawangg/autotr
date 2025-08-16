@@ -13,18 +13,18 @@ Execute it and save the keys in a text file or something of your choosing.
 > the API will stop working. Use the web app to check your account. To login to the web app, you'll need to send the
 > verification code by SMS because your app won't be enrolled anymore.
 
-**⚠️ Becareful how your exposing the API because anyone can query it meaning anyone can interact with your Trade Republic
+**⚠️ Becareful how you're exposing the API because anyone can query it meaning anyone can interact with your Trade Republic
 account! ⚠️**
 
 Now you can run the docker image like so
 
 ```sh
-docker run -d -p 3000:3000 --restart on-failure \
+podman run -d -p 3000:3000 --restart on-failure \
            -e PHONE_NUMBER="<your_phone_number>" \
            -e PIN="<your_pin>" \
            -e PUBLIC_KEY="<your_public_key>" \
            -e PRIVATE_KEY="<your_private_key>" \
-           ghcr.io/sawangg/autotr:master
+           ghcr.io/sawangg/autotr:latest
 ```
 
 You can now query the server `http://localhost:3000/api`!
